@@ -41,7 +41,15 @@ function drawSnake() {
 function advanceSnake() {
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
-    snake.pop();
+
+    const didEatFood = snake[0].x === foodX && snake[0].y === foodY;
+
+    if (didEatFood) {
+        createFood();
+    }
+    else {
+        snake.pop();
+    }
 }
 
 function clearCanvas() {
@@ -60,9 +68,11 @@ function createFood() {
     foodY = randomTen(0, canvas.height - 10);
 
     snake.forEach(function isFoodOnSnake(part) {
-        
+
         const foodIsOnSnake = part.x == foodX && part.y == foodY;
-        if (foodIsOnSnake)  createFood();
+        if (foodIsOnSnake) {
+            createFood();
+        }
     })
 }
 
@@ -80,9 +90,9 @@ function changeDirection(event) {
     const DOWN_KEY = 40;
 
     const keyPressed = event.keyCode;
-    
+
     const goingUP = dy === -10;
-    const goingDown = dy ===  10;
+    const goingDown = dy === 10;
     const goingRight = dx === 10;
     const goingLeft = dx === -10;
 
@@ -100,7 +110,7 @@ function changeDirection(event) {
         dx = 0;
         dy = -10;
     }
-    
+
     if (keyPressed === DOWN_KEY && !goingUP) {
         dx = 0;
         dy = 10;
