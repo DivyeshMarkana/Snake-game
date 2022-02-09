@@ -57,7 +57,7 @@ function changeDirection(event) {
     
     const goingUP = dy === -10;
     const goingDown = dy ===  10;
-    const goingRight = dx === 0;
+    const goingRight = dx === 10;
     const goingLeft = dx === -10;
 
     if (keyPressed === LEFT_KEY && !goingRight) {
