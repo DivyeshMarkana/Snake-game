@@ -10,11 +10,15 @@ let snake = [{ x: 150, y: 150 },
 let dx = 10;
 let dy = 0;
 
+let foodX;
+let foodY;
+
 document.addEventListener("keydown", changeDirection)
 
 function main() {
     setTimeout(function onTick() {
         clearCanvas();
+        drawFood();
         advanceSnake();
         drawSnake();
         main();
@@ -45,6 +49,28 @@ function clearCanvas() {
     ctx.strokeStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeRect(0, 0, canvas.width, canvas.height)
+}
+
+function randomTen(min, max) {
+    return Math.round((Math.random() * (max - min) + min) / 10) * 10;
+}
+
+function createFood() {
+    foodX = randomTen(0, canvas.width - 10);
+    foodY = randomTen(0, canvas.height - 10);
+
+    snake.forEach(function isFoodOnSnake(part) {
+        
+        const foodIsOnSnake = part.x == foodX && part.y == foodY;
+        if (foodIsOnSnake)  createFood();
+    })
+}
+
+function drawFood() {
+    ctx.fillStyle = "red";
+    ctx.strokeStyle = "darkred";
+    ctx.fillRect(foodX, foodY, 10, 10);
+    ctx.strokeRect(foodX, foodY, 10, 10);
 }
 
 function changeDirection(event) {
