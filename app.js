@@ -10,6 +10,8 @@ let snake = [{ x: 150, y: 150 },
 let dx = 10;
 let dy = 0;
 
+document.addEventListener("keydown", changeDirection)
+
 function main() {
     setTimeout(function onTick() {
         clearCanvas();
@@ -43,6 +45,40 @@ function clearCanvas() {
     ctx.strokeStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeRect(0, 0, canvas.width, canvas.height)
+}
+
+function changeDirection(event) {
+    const LEFT_KEY = 37;
+    const RIGHT_KEY = 39;
+    const UP_KEY = 38;
+    const DOWN_KEY = 40;
+
+    const keyPressed = event.keyCode;
+    
+    const goingUP = dy === -10;
+    const goingDown = dy ===  10;
+    const goingRight = dx === 0;
+    const goingLeft = dx === -10;
+
+    if (keyPressed === LEFT_KEY && !goingRight) {
+        dx = -10;
+        dy = 0;
+    }
+
+    if (keyPressed === RIGHT_KEY && !goingLeft) {
+        dx = 10;
+        dy = 0;
+    }
+
+    if (keyPressed === UP_KEY && !goingDown) {
+        dx = 0;
+        dy = -10;
+    }
+    
+    if (keyPressed === DOWN_KEY && !goingUP) {
+        dx = 0;
+        dy = 10;
+    }
 }
 
 
