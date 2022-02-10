@@ -10,17 +10,23 @@ let snake = [{ x: 150, y: 150 },
 let dx = 10;
 let dy = 0;
 
-// let foodX;
-// let foodY;
-
-let foodX = randomTen(0, canvas.width - 10);
-let foodY = randomTen(0, canvas.height - 10);
+let foodX;
+let foodY;
 
 let score = 0;
+
+// main();
+createFood();
 
 document.addEventListener("keydown", changeDirection)
 
 function main() {
+    if (didGameEnd()){
+        alert("GAME OVER!")
+        document.location.reload();
+        return;
+    } 
+        
     setTimeout(function onTick() {
         clearCanvas();
         drawFood();
@@ -94,6 +100,23 @@ function drawFood() {
     ctx.strokeStyle = "darkred";
     ctx.fillRect(foodX, foodY, 10, 10);
     ctx.strokeRect(foodX, foodY, 10, 10);
+}
+
+function didGameEnd() {
+    for (let index = 4; index < snake.length; index++) {
+        const didCollide = snake[index].x === snake[0].x && snake[index].y === snake[0].y;
+
+        if (didCollide) {
+            return true;
+        }
+    }
+    
+    const hitLeftWall = snake[0].x < 0;
+    const hitRightWall = snake[0].x > canvas.width - 10;
+    const hitTopWall = snake[0].y < 0;
+    const hitBottomWall = snake[0].y > canvas.height - 10;
+
+    return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
 }
 
 function changeDirection(event) {
