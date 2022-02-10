@@ -10,8 +10,13 @@ let snake = [{ x: 150, y: 150 },
 let dx = 10;
 let dy = 0;
 
-let foodX;
-let foodY;
+// let foodX;
+// let foodY;
+
+let foodX = randomTen(0, canvas.width - 10);
+let foodY = randomTen(0, canvas.height - 10);
+
+let score = 0;
 
 document.addEventListener("keydown", changeDirection)
 
@@ -19,6 +24,7 @@ function main() {
     setTimeout(function onTick() {
         clearCanvas();
         drawFood();
+        drawScore();
         advanceSnake();
         drawSnake();
         main();
@@ -46,10 +52,17 @@ function advanceSnake() {
 
     if (didEatFood) {
         createFood();
+        score += 10;
     }
     else {
         snake.pop();
     }
+}
+
+function drawScore() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Score: " + score, 8, 20);
 }
 
 function clearCanvas() {
